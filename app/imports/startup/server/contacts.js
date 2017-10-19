@@ -2,7 +2,7 @@ import { Contacts } from '../../api/contacts/contacts.js';
 import { _ } from 'meteor/underscore';
 
 /**
- * A list of Stuff to pre-fill the Collection.
+ * A list of Contacts to pre-fill the Collection.
  * @type {*[]}
  */
 const contactSeeds = [
@@ -11,28 +11,28 @@ const contactSeeds = [
     last: 'Johnson',
     address: '1680 East-West Rd., Honolulu. HI',
     telephone: '808-956-3489',
-    email: 'johnson@hawaii.edu'
+    email: 'johnson@hawaii.edu',
   },
   {
     first: 'Henri',
     last: 'Casanova',
     address: '1680 East-West Rd., Honolulu. HI',
     telephone: '808-956-2649',
-    email: 'henric@hawaii.edu'
+    email: 'henric@hawaii.edu',
   },
   {
     first: 'Kim',
     last: 'Binsted',
     address: '1680 East-West Rd., Honolulu. HI',
     telephone: '808-956-6107',
-    email: 'binsted@hawaii.edu'
+    email: 'binsted@hawaii.edu',
   },
   {
     first: 'David',
     last: 'Chin',
     address: '1680 East-West Rd., Honolulu. HI',
     telephone: '808-956-3489',
-    email: 'chin@hawaii.edu'
+    email: 'chin@hawaii.edu',
   },
 ];
 
