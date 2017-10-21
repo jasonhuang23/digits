@@ -1,24 +1,17 @@
 import { Template } from 'meteor/templating';
-import { Tracker } from 'meteor/tracker';
-import { ReactiveDict } from 'meteor/reactive-dict';
 import { _ } from 'meteor/underscore';
-import { FlowRouter } from 'meteor/kadira:flow-router';
+import { ReactiveDict } from 'meteor/reactive-dict';
 import { Contacts, ContactsSchema } from '../../api/contacts/contacts.js';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 
 /* eslint-disable no-param-reassign */
 
 const displayErrorMessages = 'displayErrorMessages';
-const createContext = ContactsSchema.namedContext('Add_Contact_Page');
-
-Tracker.autorun(function () {
-  console.log('autorum', createContext.isValid(), createContext.invalidKeys());
-});
-
 
 Template.Add_Contact_Page.onCreated(function onCreated() {
   this.messageFlags = new ReactiveDict();
   this.messageFlags.set(displayErrorMessages, false);
-  this.context = createContext;
+  this.context = ContactsSchema.namedContext('Add_Contact_Page');
 });
 
 Template.Add_Contact_Page.helpers({
@@ -27,9 +20,9 @@ Template.Add_Contact_Page.helpers({
   },
   fieldError(fieldName) {
     const invalidKeys = Template.instance().context.invalidKeys();
-    const errorObject = _.find(invalidKeys, (keyObj) => keyObj.name === fieldName);
+    const errorObject = _.find(invalidKeys, function (keyObj) {return keyObj.name === fieldName;});
     return errorObject && Template.instance().context.keyErrorMessage(errorObject.name);
-  }
+  },
 });
 
 
@@ -40,19 +33,18 @@ Template.Add_Contact_Page.events({
     const first = event.target.First.value;
     const last = event.target.Last.value;
     const address = event.target.Address.value;
-    const telephone = event.target.Telephone.value;
+    const phone = event.target.Telephone.value;
     const email = event.target.Email.value;
 
-
-    const newContactData = { first, last, address, telephone, email };
+    const newContactData = { first, last, address, phone, email };
     // Clear out any old validation errors.
     instance.context.resetValidation();
     // Invoke clean so that newStudentData reflects what will be inserted.
-     ContactsSchema.clean(newContactData);
+    ContactsSchema.clean(newContactData);
     // Determine validity.
     instance.context.validate(newContactData);
     if (instance.context.isValid()) {
-     Contacts.insert(newContactData);
+      Contacts.insert(newContactData);
       instance.messageFlags.set(displayErrorMessages, false);
       FlowRouter.go('Home_Page');
     } else {
